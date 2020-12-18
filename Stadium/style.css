@@ -1,0 +1,746 @@
+:root{
+    --field-width: 950px;
+    --field-height: 500px;
+    --green-light: #016814;
+    --green-dark: #014a0e;
+    --gray-light: #666666;
+    --gray-dark: #333333;
+    --yellow-light: #909203;
+    --yellow-dark: #505102;
+    --white80: rgba(255,255,255,.2);
+    --animation-time: .7s;
+    --delay: 2s;
+    --animation-iteration-count: 3;
+    --animation-fill-mode: both;
+  }
+  
+  *, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body{
+    background-image: linear-gradient(
+      to bottom, #FFF, #b8e1f1
+    );
+  }
+  
+  .wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .stadium{
+    position: relative;
+    border: 8px solid #FFF;
+    box-shadow:
+            0 0 0 20px #80180d,
+            0 0 0 21px var(--white80),
+            0 0 0 40px #75160c,
+            0 0 0 41px var(--white80),
+            0 0 0 70px #55160c,
+            0 0 0 71px var(--white80),
+            0 0 0 95px #121762,
+            0 0 0 96px var(--white80),
+            0 0 0 124px #121762,
+            0 0 0 125px var(--white80),
+            0 0 0 150px #121762,
+            0 0 0 170px #46130c,
+            0 0 0 171px var(--white80),
+            0 0 0 190px #46130c,
+            0 0 0 191px var(--white80),
+            0 0 0 210px #46130c,
+            0 0 0 211px var(--white80),
+            0 0 0 250px #300d08,
+            20px 20px 0 270px rgba(0,0,0,.4),
+            inset 0 0 20px 20px rgba(0,0,0,.3);
+    border-radius: 16%;
+    padding: 1.4rem;
+    background-color: var(--green-light);
+    background-image: 
+                  repeating-linear-gradient(
+                      90deg, 
+                      transparent, 
+                      transparent 10%, 
+                      rgba(1,74,14,.5) 10%,
+                      rgba(1,74,14,.5) 20%);
+  }
+  
+  /* NOISY BACKGROUND */
+  .stadium::before{
+    content: '';
+    display: block;
+    background: url("data:image/png;base64,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") repeat scroll center center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    opacity: .6;
+  }
+  .stadium::after{
+    content: 'Tauchert FC';
+    font-size: 5.3rem;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: -10px;
+    word-spacing: 15px;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    position: absolute;
+    left: -154px;
+    top: 30px;
+    writing-mode: sideways-lr;
+    color: rgba(255,255,255,.1);
+  }
+  
+  .field{
+    width: var(--field-width);
+    height: var(--field-height);
+    filter: contrast(1.2);
+    overflow: hidden;
+    position: relative;
+  }
+  /* CENTER LIGHT FIELD */
+  .field::before{
+    content: '';
+    display:block;
+    background-color: #3ad845;
+    height: 70%;
+    width: 40%;
+    margin: 10% auto 0 auto;
+    filter: blur(50px) opacity(.6);
+  }
+  
+  .center-wrapper{
+    border: 4px solid rgba(255,255,255,.6);
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 3%;
+    right: 2%;
+    left: 2%;
+    bottom: 3%;
+  }
+  .center-wrapper::before{
+    content: '';
+    display: block;
+    background-color: rgba(255,255,255,.6);
+    width: 4px;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .center-wrapper::after{
+    content: '';
+    display: block;
+    border:4px solid rgba(255,255,255,.6);
+    border-radius: 50%;
+    width: calc(var(--field-width) / 4);
+    height: calc(var(--field-width) / 4);
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: transparent;
+  }
+  .goalkeeper, .goal{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+  .goalkeeper > div{
+    width: calc(var(--field-width) / 7);
+    height: calc(var(--field-height) / 1.7);
+    border:4px solid rgba(255,255,255,.6);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .goalkeeper div:nth-child(1){
+    border-left: none;
+    left: 2%;
+  }
+  .goalkeeper div:nth-child(2){
+    border-right: none;
+    right: 2%;
+  }
+  .goalkeeper > div::before{
+    content: '';
+    display: block;
+    width: calc(var(--field-width) / 20);
+    height: calc(var(--field-height) / 4);
+    border:4px solid rgba(255,255,255,.6);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .goalkeeper > div:nth-child(1)::before{
+    border-left: none;
+    left: 2%;
+  }
+  .goalkeeper > div:nth-child(2)::before{
+    border-right: none;
+    right: 2%;
+  }
+  .goalkeeper > div::after{
+    content: '';
+    display: block;
+    width: calc(var(--field-width) / 20);
+    height: calc(var(--field-height) / 5);
+    border: 4px solid rgba(255,255,255,.6);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .goalkeeper > div:nth-child(1)::after{
+    right: calc((var(--field-width) / -20) - 4px);
+    border-left:none;
+    border-top-right-radius: 100% 50%;
+    border-bottom-right-radius: 100% 50%;
+  }
+  .goalkeeper > div:nth-child(2)::after{
+    left: calc((var(--field-width) / -20) - 4px);
+    border-right:none;
+    border-top-left-radius: 100% 50%;
+    border-bottom-left-radius: 100% 50%;
+  }
+  
+  .dots{
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 3%;
+    right: 2%;
+    left: 2%;
+    bottom: 3%;
+  }
+  .dots span{
+    position: absolute;
+    top: 50%;
+    transform: translateY(calc(-50% - 1rem));
+    font-size: 5.5rem;
+    color: rgba(255,255,255,.7);
+  }
+  .dots span:nth-child(1){
+    left: calc(var(--field-width) / 12);
+  }
+  .dots span:nth-child(2){
+    left: 49.65%;
+    transform: translateX(-50%) translateY(calc(-50% - 1rem));
+  }
+  .dots span:nth-child(3){
+    right: calc(var(--field-width) / 12);
+  }
+  
+  .corners{
+    overflow: hidden;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: calc(3% + 4px);
+    right: calc(2% + 4px);
+    left: calc(2% + 4px);
+    bottom: calc(3% + 4px);
+  }
+  .corners span{
+    display: block;
+    width: calc(var(--field-width) / 30);
+    height: calc(var(--field-width) / 30);
+    border: 4px solid rgba(255,255,255,.6);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 5;
+  }
+  .corners span:nth-child(1){
+    top: -15px;
+    left: -15px;
+  }
+  .corners span:nth-child(2){
+    bottom: -15px;
+    left: -15px;
+  }
+  .corners span:nth-child(3){
+    top: -15px;
+    right: -15px;
+  }
+  .corners span:nth-child(4){
+    bottom: -15px;
+    right: -15px;
+  }
+  .goal span{
+    display: block;
+    width: calc(var(--field-width) / 60);
+    height: calc(var(--field-height) / 9);
+    border:4px solid rgba(255,255,255,.6);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .goal span:nth-child(1){
+    left: 5px;
+    border-right: none;
+  }
+  .goal span:nth-child(2){
+    right: 5px;
+    border-left: none;
+  }
+  
+  .ball{
+    background-color: #eee;
+    background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
+    linear-gradient(-45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
+    background-size: 15px 15px;
+    width: 30px;
+    height: 30px;
+    border-radius:50%;
+    position: absolute;
+    top: calc(35% - 10px);
+    right: calc(var(--field-width) / 5);
+    transform: translateX(-50%);
+    box-shadow: 
+            inset 8px 5px 4px rgba(0,0,0,.4),
+            inset -8px -5px 4px rgba(0,0,0,.4),
+            0px 10px 4px rgba(0,0,0,.15);
+  }
+  
+  
+  .runner {
+    position: absolute;
+    left: calc(62% - 60px);
+    top: calc(25% - 55px);
+    width: 0;
+    height: 0;
+    transform: translate(-50%,-50%) scale(0.5);
+    backface-visibility: hidden;
+    perspective: 1000;
+  }
+  
+  .runner .wrap {
+    top: 0;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .runner .wrap .body {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    margin-left: -2px;
+    width: 20px;
+    height: 60px;
+    transform-origin: 50% 0;
+  }
+  
+  .runner .wrap .body .arm {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    z-index: 1;
+    width: 20px;
+    height: 100%;
+  }
+  
+  .runner .wrap .body .arm .left-hand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 2;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-dark);
+  }
+  
+  .runner .wrap .body .arm .left-hand .wrist {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-dark);
+  }
+  
+  .runner .wrap .body .arm .chest {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #FFF;
+  }
+  .runner .wrap .body .arm .chest::before {
+    content: '10';
+    display: block;
+    line-height: 4rem;
+    letter-spacing: -1px;
+    margin-left: 5px;
+    box-shadow: inset 3px 2px 5px rgba(0,0,0,.3),
+                3px 2px 5px rgba(0,0,0,.3);
+  }
+  
+  .runner .wrap .body .arm .chest .head {
+    position: absolute;
+    top: -60px;
+    left: -12px;
+    display: block;
+    z-index: 0;
+    margin-left: -5px;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    background: var(--gray-dark);
+  }
+  .runner .wrap .body .chest .head::before{
+    content: '';
+    display: block;
+    transform-origin: center center;
+    border-radius: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: var(--yellow-light);
+    box-shadow: 25px -14px 0 7px var(--yellow-dark),
+                -15px 5px 0 7px var(--yellow-dark),
+                10px -5px 0 4px var(--yellow-dark);
+  }
+  .runner .wrap .body .chest .head::after{
+    content: '';
+    display: block;
+    background-color: #000;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top:20px;
+    left: 37px;
+    border-radius:50%;
+    box-shadow:inset 2px 0px 0px 3px #FFF;
+  }
+  
+  .runner .wrap .body .arm .chest .head .neck {
+    position: absolute;
+    top: 90%;
+    right: 0;
+    left: -5px;
+    display: block;
+    z-index: 0;
+    margin: auto;
+    width: 15px;
+    height: 10px;
+    background: var(--gray-dark);
+  }
+  .mouth{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    background-color: #FFF;
+    width: 15px;
+    height: 8px;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+  }
+  .mouth::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1px;
+    background-color: #E79EA9;
+    width: calc(100% - 1px);
+    height: 5px;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+  }
+  .runner .wrap .body .arm .right-hand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-light);
+  }
+  
+  .runner .wrap .body .arm .right-hand .wrist {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-light);
+  }
+  .runner .wrap .body .arm .right-hand .wrist::before,
+  .runner .wrap .body .arm .left-hand .wrist::before  {
+    content: '';
+    position: absolute;
+    top: 95%;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 40%;
+    transform-origin: 50% 0;
+    background: #222;
+  }
+  
+  .runner .wrap .body .hip {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 20px;
+    height: 0;
+  }
+  
+  .runner .wrap .body .hip .left-leg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 1;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-dark);
+  }
+  
+  .runner .wrap .body .hip .left-leg .lower {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-dark);
+  }
+  .runner .wrap .body .hip .left-leg .lower::before,
+  .runner .wrap .body .hip .right-leg .lower::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 23px;
+    height: 10px;
+    transform-origin: 50% 0;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    background: var(--gray-dark);
+  }
+  
+  .runner .wrap .body .hip .right-leg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-light);
+  }
+  
+  .runner .wrap .body .hip .right-leg .lower {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    z-index: 0;
+    width: 12px;
+    height: 40px;
+    transform-origin: 50% 0;
+    background: var(--gray-light);
+  }
+  
+  .runner .wrap {
+    animation: head-running var(--animation-time) ease-in-out var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body {
+    animation: body-running var(--animation-time) ease-in-out var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .arm .left-hand {
+    animation: left-hand-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .arm .left-hand .wrist {
+    animation: left-hand-wrist-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .arm .right-hand {
+    animation: right-hand-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .arm .right-hand .wrist {
+    animation: right-hand-wrist-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .hip .left-leg {
+    animation: left-leg-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .hip .left-leg .lower {
+    animation: left-leg-lower-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .hip .right-leg {
+    animation: right-leg-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner .wrap .body .hip .right-leg .lower {
+    animation: right-leg-lower-running var(--animation-time) ease var(--delay) var(--animation-iteration-count) var(--animation-fill-mode);
+  }
+  .runner {
+    opacity: 0;
+    animation: show 1s ease-out 2s 1 both,
+               running-player 2s ease-out var(--delay) 1 forwards,
+               hide .5s linear 4s forwards;
+  }
+  .ball{
+    opacity: 0;
+    animation: show 1s ease-out 2s 1 both,
+               ball-kick 1.2s ease-out 4s 1 forwards,
+               hide .5s linear 5.2s forwards;
+  }
+  .stadium {
+    animation: stadium-zoom 2s ease 1 both;
+  }
+  
+  /* RUNNER MOVIN */
+  
+  @keyframes stadium-zoom {
+    100% {
+        transform: scale(.72);
+    }
+  }
+  @keyframes running-player {
+    100% {
+        left: calc(80% - 60px);
+        top: calc(35% - 70px);
+    }
+  }
+  @keyframes ball-kick {
+    100% {
+        right: calc(0% + 23px);
+        top: calc(50% - 10px);
+        transform: scale(.5) rotate(360deg);
+    }
+  }
+  @keyframes hide{
+    100%{
+      opacity: 0;
+    }
+  }
+  @keyframes show{
+    100%{
+      opacity: 1;
+    }
+  }
+  @keyframes left-hand-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, 60deg);
+    }
+    40% {
+      transform: rotate3d(0, 0, 1, -30deg);
+    }
+  }
+  @keyframes left-hand-wrist-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, -60deg);
+    }
+    50% {
+      transform: rotate3d(0, 0, 1, -90deg);
+    }
+  }
+  @keyframes right-hand-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, -30deg);
+    }
+    40% {
+      transform: rotate3d(0, 0, 1, 60deg);
+    }
+  }
+  @keyframes right-hand-wrist-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, -90deg);
+    }
+    50% {
+      transform: rotate3d(0, 0, 1, -60deg);
+    }
+  }
+  @keyframes left-leg-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, -40deg);
+    }
+    40% {
+      transform: rotate3d(0, 0, 1, 35deg);
+    }
+  }
+  @keyframes left-leg-lower-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, 10deg);
+    }
+    50% {
+      transform: rotate3d(0, 0, 1, 45deg);
+    }
+  }
+  @keyframes right-leg-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, 35deg);
+    }
+    40% {
+      transform: rotate3d(0, 0, 1, -40deg);
+    }
+  }
+  @keyframes right-leg-lower-running {
+    from, to {
+      transform: rotate3d(0, 0, 1, 45deg);
+    }
+    50% {
+      transform: rotate3d(0, 0, 1, 10deg);
+    }
+  }
+  @keyframes body-running {
+    0%, 50%, 100% {
+      transform: rotate3d(0, 0, 1, 0);
+    }
+    25%,
+    75% {
+      transform: rotate3d(0, 0, 1, 4deg);
+    }
+  }
+  @keyframes head-running {
+    0%, 50%, 100% {
+      transform: translate3d(4px, 6px, 0);
+    }
+    25%,
+    75% {
+      transform: translate3d(0, -4px, 0);
+    }
+  }
+  
