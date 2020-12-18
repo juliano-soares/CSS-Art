@@ -12,3 +12,6 @@
     <img src="./imagens/morty.PNG" width="150" height="150">
     <img src="./imagens/stadium.PNG" width="150" height="150">
 </div>
+<div style="display: flex;">
+    <img src="./imagens/pokeball.PNG" width="150" height="150">
+</div>
