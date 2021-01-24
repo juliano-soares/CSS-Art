@@ -14,4 +14,6 @@
 </div>
 <div style="display: flex;">
     <img src="./imagens/pokeball.PNG" width="150" height="150">
+    <img src="./imagens/LoadingAnimado.png" width="150" height="150">
+    <img src="./imagens/amongUs.png" width="150" height="150">
 </div>
